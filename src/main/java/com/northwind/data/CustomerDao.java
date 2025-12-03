@@ -31,22 +31,23 @@ public class CustomerDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    Customer customer = new Customer(
+                            resultSet.getString("CustomerID"),
+                            resultSet.getString("CompanyName"),
+                            resultSet.getString("ContactName"),
+                            resultSet.getString("ContactTitle"),
+                            resultSet.getString("Address"),
+                            resultSet.getString("City"),
+                            resultSet.getString("Region"),
+                            resultSet.getString("PostalCode"),
+                            resultSet.getString("Country"),
+                            resultSet.getString("Phone"),
+                            resultSet.getString("Fax"));
 
 
-            try (ResultSet results = statement.executeQuery()) {
-
-                while (results.next()) {
-                    String title = results.getString("title");
-                    String description = results.getString("description");
-                    int releaseYear = results.getInt("release_year");
-                    int length = results.getInt("length");
-
-
-                    System.out.println(title);
-                    System.out.println(description);
-                    System.out.println(releaseYear);
-                    System.out.println(length);
-                    System.out.println("-----------------------");
                 }
 
             }
