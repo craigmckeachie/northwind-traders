@@ -114,4 +114,21 @@ public class Customer {
     public void setFax(String fax) {
         this.fax = fax;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId='" + customerId + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", contactName='" + contactName + '\'' +
+                ", contactTitle='" + contactTitle + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", region='" + region + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", country='" + country + '\'' +
+                ", phone='" + phone + '\'' +
+                ", fax='" + fax + '\'' +
+                '}';
+    }
 }
