@@ -58,7 +58,21 @@ public class CustomerDao {
     }
 
     public Customer find(int customerId){
-        return null;
+        throw new UnsupportedOperationException();
     }
+
+    public Customer add(Customer customer){
+        throw new UnsupportedOperationException();
+    }
+
+    public void update(Customer customer){
+        throw new UnsupportedOperationException();
+    }
+
+    public void delete(int customerId){
+        throw new UnsupportedOperationException();
+    }
+
+
 
 }
