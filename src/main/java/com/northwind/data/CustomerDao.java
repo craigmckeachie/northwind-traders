@@ -57,4 +57,8 @@ public class CustomerDao {
         return customers;
     }
 
+    public Customer find(int customerId){
+        return null;
+    }
+
 }
