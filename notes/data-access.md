@@ -1,7 +1,21 @@
 # Data Access
 
-- store username and passwords as configured command-line arguments
+- bring in Maven dependency for the `DataSource` from `commons.dbcp2` to `pom.xml` 
+```xml
+    <dependencies>
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-dbcp2</artifactId>
+        <version>2.13.0</version>
+    </dependency>
+</dependencies>
+```
+
+- store username and password as configured command-line arguments
 - use the `DataSource` object to store username, password, and database url
+
+
+
 
 - a model class for each table (Ex. Customer)
 - model classes go in `model` package
