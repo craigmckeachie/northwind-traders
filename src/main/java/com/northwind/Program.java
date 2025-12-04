@@ -3,8 +3,10 @@ package com.northwind;
 
 // Import statements - bringing in the tools we need for this program
 import com.northwind.data.CustomerDao;  // Our customer database helper
+import com.northwind.data.ProductDao;
 import com.northwind.data.ShipperDao;   // Our shipper database helper
 import com.northwind.model.Customer;     // The Customer blueprint/class
+import com.northwind.model.Product;
 import com.northwind.model.Shipper;      // The Shipper blueprint/class
 import org.apache.commons.dbcp2.BasicDataSource;  // Manages database connections efficiently
 import java.util.List;  // For working with lists of objects
@@ -37,6 +39,293 @@ public class Program {
         dataSource.setUsername(username);  // Tell it the username
         dataSource.setPassword(password);  // Tell it the password
 
+        testProduct(dataSource);
+
+//        testCustomer(dataSource);
+
+//        testShipper(dataSource);
+
+
+
+
+
+        // Print a final message showing all tests are complete
+        System.out.println("\n========================================");
+        System.out.println("ALL TESTS COMPLETED");
+        System.out.println("========================================");
+    }
+
+
+
+    private static void testProduct(BasicDataSource dataSource) {
+        // Print a header for the next section of tests
+        System.out.println("\n========================================");
+        System.out.println("TESTING PRODUCT DAO");
+        System.out.println("========================================\n");
+
+        // Create a ProductDao object - our product database helper
+        // Uses the same dataSource (connection pool) as other DAOs
+        ProductDao productDao = new ProductDao(dataSource);
+
+        // ============================================================
+        // TEST 1: Get All Products
+        // This tests the getAll() method to retrieve every product
+        // ============================================================
+        System.out.println("--- Test 1: Get All Products ---");
+
+        // Get all products from the database
+        List<Product> products = productDao.getAll();
+        System.out.println("Total products: " + products.size());
+
+        // Loop through all products and print each one
+        // "for (Type variable : collection)" is called an "enhanced for loop"
+        // It's like saying "for each product in the products list, do this..."
+        for (Product product : products) {
+            System.out.println(product);
+        }
+
+//        // ============================================================
+//        // TEST 2: Find a Specific Product
+//        // This tests the find() method to search for one product by ID
+//        // Notice: product IDs are int (numbers), not String
+//        // ============================================================
+//        System.out.println("\n--- Test 2: Find Product by ID ---");
+//
+//        // Look for a product with ID 1
+//        // We pass an int (1) not a String ("1") because ProductID is a number
+//        Product foundProduct = productDao.find(1);
+//
+//        if (foundProduct != null) {
+//            System.out.println("Found: " + foundProduct);
+//        } else {
+//            System.out.println("Product with ID 1 not found.");
+//        }
+//
+//        // ============================================================
+//        // TEST 3: Add a New Product
+//        // This tests the add() method to insert a new product
+//        // KEY DIFFERENCE: ProductID is auto-increment, so we don't set it!
+//        // ============================================================
+//        System.out.println("\n--- Test 3: Add New Product ---");
+//
+//        // Create a new Product using the no-argument constructor
+//        // We don't set the ID because the database will generate it automatically
+//        Product newProduct = new Product();
+//
+//        // Use setters to fill in the information we DO control
+//        newProduct.setProductName("Test Product");
+//        newProduct.setSupplierId(1);
+//        newProduct.setCategoryId(1);
+//        newProduct.setQuantityPerUnit("10 boxes");
+//        newProduct.setUnitPrice(19.99);
+//        newProduct.setUnitsInStock(100);
+//        newProduct.setUnitsOnOrder(0);
+//        newProduct.setReorderLevel(10);
+//        newProduct.setDiscontinued(false);
+//
+//        // Add the product to the database
+//        // IMPORTANT: After adding, the product object will have its ID set
+//        // The database generated the ID and our add() method retrieved it
+//        Product addedProduct = productDao.add(newProduct);
+//        System.out.println("Added: " + addedProduct);
+//
+//        // Print the auto-generated ID
+//        // This proves the database created a unique ID for us
+//        System.out.println("Generated ID: " + addedProduct.getProductId());
+//
+//        // ============================================================
+//        // TEST 4: Verify the Product Was Added
+//        // This confirms our add() worked by trying to find the product
+//        // ============================================================
+//        System.out.println("\n--- Test 4: Verify Product Was Added ---");
+//
+//        // Save the generated ID in a variable so we can use it later
+//        // We need this ID for finding, updating, and deleting this product
+//        int newProductId = addedProduct.getProductId();
+//
+//        // Try to find the product using the auto-generated ID
+//        Product verifyProduct = productDao.find(newProductId);
+//
+//        if (verifyProduct != null) {
+//            System.out.println("Verified: " + verifyProduct);
+//        } else {
+//            System.out.println("Product with ID " + newProductId + " not found after adding.");
+//        }
+//
+//        // ============================================================
+//        // TEST 5: Update the Product
+//        // This tests the update() method to modify an existing product
+//        // ============================================================
+//        System.out.println("\n--- Test 5: Update Product ---");
+//
+//        if (verifyProduct != null) {
+//
+//            // Modify the product's information
+//            verifyProduct.setProductName("Updated Test Product");
+//            verifyProduct.setUnitPrice(24.99);
+//            verifyProduct.setUnitsInStock(150);
+//
+//            // Save changes to the database
+//            productDao.update(verifyProduct);
+//            System.out.println("Updated product with ID " + newProductId);
+//
+//            // Retrieve the product again to see the changes
+//            Product updatedProduct = productDao.find(newProductId);
+//            System.out.println("After update: " + updatedProduct);
+//        }
+//
+//        // ============================================================
+//        // TEST 6: Delete the Product
+//        // This tests the delete() method to remove a product
+//        // ============================================================
+//        System.out.println("\n--- Test 6: Delete Product ---");
+//
+//        // Delete by the product's ID
+//        productDao.delete(newProductId);
+//        System.out.println("Deleted product with ID " + newProductId);
+//
+//        // Try to find the product to confirm deletion
+//        Product deletedProduct = productDao.find(newProductId);
+//
+//        if (deletedProduct == null) {
+//            System.out.println("Confirmed: Product with ID " + newProductId + " no longer exists.");
+//        } else {
+//            System.out.println("Warning: Product with ID " + newProductId + " still exists after deletion.");
+//        }
+    }
+
+
+
+    private static void testShipper(BasicDataSource dataSource) {
+        // Print a header for the next section of tests
+        System.out.println("\n========================================");
+        System.out.println("TESTING SHIPPER DAO");
+        System.out.println("========================================\n");
+
+        // Create a ShipperDao object - our shipper database helper
+        // Uses the same dataSource (connection pool) as CustomerDao
+        ShipperDao shipperDao = new ShipperDao(dataSource);
+
+        // ============================================================
+        // TEST 1: Get All Shippers
+        // This tests the getAll() method to retrieve every shipper
+        // ============================================================
+        System.out.println("--- Test 1: Get All Shippers ---");
+
+        // Get all shippers from the database
+        List<Shipper> shippers = shipperDao.getAll();
+        System.out.println("Total shippers: " + shippers.size());
+
+        // Loop through all shippers and print each one
+        // "for (Type variable : collection)" is called an "enhanced for loop"
+        // It's like saying "for each shipper in the shippers list, do this..."
+        for (Shipper shipper : shippers) {
+            System.out.println(shipper);
+        }
+
+        // ============================================================
+        // TEST 2: Find a Specific Shipper
+        // This tests the find() method to search for one shipper by ID
+        // Notice: shipper IDs are int (numbers), not String like customer IDs
+        // ============================================================
+        System.out.println("\n--- Test 2: Find Shipper by ID ---");
+
+        // Look for a shipper with ID 1
+        // We pass an int (1) not a String ("1") because ShipperID is a number
+        Shipper foundShipper = shipperDao.find(1);
+
+        if (foundShipper != null) {
+            System.out.println("Found: " + foundShipper);
+        } else {
+            System.out.println("Shipper with ID 1 not found.");
+        }
+
+        // ============================================================
+        // TEST 3: Add a New Shipper
+        // This tests the add() method to insert a new shipper
+        // KEY DIFFERENCE: ShipperID is auto-increment, so we don't set it!
+        // ============================================================
+        System.out.println("\n--- Test 3: Add New Shipper ---");
+
+        // Create a new Shipper using the no-argument constructor
+        // We don't set the ID because the database will generate it automatically
+        Shipper newShipper = new Shipper();
+
+        // Use setters to fill in the information we DO control
+        newShipper.setCompanyName("Test Shipping Co");
+        newShipper.setPhone("555-TEST");
+
+        // Add the shipper to the database
+        // IMPORTANT: After adding, the shipper object will have its ID set
+        // The database generated the ID and our add() method retrieved it
+        Shipper addedShipper = shipperDao.add(newShipper);
+        System.out.println("Added: " + addedShipper);
+
+        // Print the auto-generated ID
+        // This proves the database created a unique ID for us
+        System.out.println("Generated ID: " + addedShipper.getShipperId());
+
+        // ============================================================
+        // TEST 4: Verify the Shipper Was Added
+        // This confirms our add() worked by trying to find the shipper
+        // ============================================================
+        System.out.println("\n--- Test 4: Verify Shipper Was Added ---");
+
+        // Save the generated ID in a variable so we can use it later
+        // We need this ID for finding, updating, and deleting this shipper
+        int newShipperId = addedShipper.getShipperId();
+
+        // Try to find the shipper using the auto-generated ID
+        Shipper verifyShipper = shipperDao.find(newShipperId);
+
+        if (verifyShipper != null) {
+            System.out.println("Verified: " + verifyShipper);
+        } else {
+            System.out.println("Shipper with ID " + newShipperId + " not found after adding.");
+        }
+
+        // ============================================================
+        // TEST 5: Update the Shipper
+        // This tests the update() method to modify an existing shipper
+        // ============================================================
+        System.out.println("\n--- Test 5: Update Shipper ---");
+
+        if (verifyShipper != null) {
+
+            // Modify the shipper's information
+            verifyShipper.setCompanyName("Updated Shipping Co");
+            verifyShipper.setPhone("555-UPDT");
+
+            // Save changes to the database
+            shipperDao.update(verifyShipper);
+            System.out.println("Updated shipper with ID " + newShipperId);
+
+            // Retrieve the shipper again to see the changes
+            Shipper updatedShipper = shipperDao.find(newShipperId);
+            System.out.println("After update: " + updatedShipper);
+        }
+
+        // ============================================================
+        // TEST 6: Delete the Shipper
+        // This tests the delete() method to remove a shipper
+        // ============================================================
+        System.out.println("\n--- Test 6: Delete Shipper ---");
+
+        // Delete by the shipper's ID
+        shipperDao.delete(newShipperId);
+        System.out.println("Deleted shipper with ID " + newShipperId);
+
+        // Try to find the shipper to confirm deletion
+        Shipper deletedShipper = shipperDao.find(newShipperId);
+
+        if (deletedShipper == null) {
+            System.out.println("Confirmed: Shipper with ID " + newShipperId + " no longer exists.");
+        } else {
+            System.out.println("Warning: Shipper with ID " + newShipperId + " still exists after deletion.");
+        }
+    }
+
+    private static void testCustomer(BasicDataSource dataSource) {
         // Print a nice header to organize our output
         System.out.println("========================================");
         System.out.println("TESTING CUSTOMER DAO");
@@ -177,138 +466,6 @@ public class Program {
             // If we still find them, something went wrong
             System.out.println("Warning: Customer TSTID still exists after deletion.");
         }
-
-        // Print a header for the next section of tests
-        System.out.println("\n========================================");
-        System.out.println("TESTING SHIPPER DAO");
-        System.out.println("========================================\n");
-
-        // Create a ShipperDao object - our shipper database helper
-        // Uses the same dataSource (connection pool) as CustomerDao
-        ShipperDao shipperDao = new ShipperDao(dataSource);
-
-        // ============================================================
-        // TEST 1: Get All Shippers
-        // This tests the getAll() method to retrieve every shipper
-        // ============================================================
-        System.out.println("--- Test 1: Get All Shippers ---");
-
-        // Get all shippers from the database
-        List<Shipper> shippers = shipperDao.getAll();
-        System.out.println("Total shippers: " + shippers.size());
-
-        // Loop through all shippers and print each one
-        // "for (Type variable : collection)" is called an "enhanced for loop"
-        // It's like saying "for each shipper in the shippers list, do this..."
-        for (Shipper shipper : shippers) {
-            System.out.println(shipper);
-        }
-
-        // ============================================================
-        // TEST 2: Find a Specific Shipper
-        // This tests the find() method to search for one shipper by ID
-        // Notice: shipper IDs are int (numbers), not String like customer IDs
-        // ============================================================
-        System.out.println("\n--- Test 2: Find Shipper by ID ---");
-
-        // Look for a shipper with ID 1
-        // We pass an int (1) not a String ("1") because ShipperID is a number
-        Shipper foundShipper = shipperDao.find(1);
-
-        if (foundShipper != null) {
-            System.out.println("Found: " + foundShipper);
-        } else {
-            System.out.println("Shipper with ID 1 not found.");
-        }
-
-        // ============================================================
-        // TEST 3: Add a New Shipper
-        // This tests the add() method to insert a new shipper
-        // KEY DIFFERENCE: ShipperID is auto-increment, so we don't set it!
-        // ============================================================
-        System.out.println("\n--- Test 3: Add New Shipper ---");
-
-        // Create a new Shipper using the no-argument constructor
-        // We don't set the ID because the database will generate it automatically
-        Shipper newShipper = new Shipper();
-
-        // Use setters to fill in the information we DO control
-        newShipper.setCompanyName("Test Shipping Co");
-        newShipper.setPhone("555-TEST");
-
-        // Add the shipper to the database
-        // IMPORTANT: After adding, the shipper object will have its ID set
-        // The database generated the ID and our add() method retrieved it
-        Shipper addedShipper = shipperDao.add(newShipper);
-        System.out.println("Added: " + addedShipper);
-
-        // Print the auto-generated ID
-        // This proves the database created a unique ID for us
-        System.out.println("Generated ID: " + addedShipper.getShipperId());
-
-        // ============================================================
-        // TEST 4: Verify the Shipper Was Added
-        // This confirms our add() worked by trying to find the shipper
-        // ============================================================
-        System.out.println("\n--- Test 4: Verify Shipper Was Added ---");
-
-        // Save the generated ID in a variable so we can use it later
-        // We need this ID for finding, updating, and deleting this shipper
-        int newShipperId = addedShipper.getShipperId();
-
-        // Try to find the shipper using the auto-generated ID
-        Shipper verifyShipper = shipperDao.find(newShipperId);
-
-        if (verifyShipper != null) {
-            System.out.println("Verified: " + verifyShipper);
-        } else {
-            System.out.println("Shipper with ID " + newShipperId + " not found after adding.");
-        }
-
-        // ============================================================
-        // TEST 5: Update the Shipper
-        // This tests the update() method to modify an existing shipper
-        // ============================================================
-        System.out.println("\n--- Test 5: Update Shipper ---");
-
-        if (verifyShipper != null) {
-
-            // Modify the shipper's information
-            verifyShipper.setCompanyName("Updated Shipping Co");
-            verifyShipper.setPhone("555-UPDT");
-
-            // Save changes to the database
-            shipperDao.update(verifyShipper);
-            System.out.println("Updated shipper with ID " + newShipperId);
-
-            // Retrieve the shipper again to see the changes
-            Shipper updatedShipper = shipperDao.find(newShipperId);
-            System.out.println("After update: " + updatedShipper);
-        }
-
-        // ============================================================
-        // TEST 6: Delete the Shipper
-        // This tests the delete() method to remove a shipper
-        // ============================================================
-        System.out.println("\n--- Test 6: Delete Shipper ---");
-
-        // Delete by the shipper's ID
-        shipperDao.delete(newShipperId);
-        System.out.println("Deleted shipper with ID " + newShipperId);
-
-        // Try to find the shipper to confirm deletion
-        Shipper deletedShipper = shipperDao.find(newShipperId);
-
-        if (deletedShipper == null) {
-            System.out.println("Confirmed: Shipper with ID " + newShipperId + " no longer exists.");
-        } else {
-            System.out.println("Warning: Shipper with ID " + newShipperId + " still exists after deletion.");
-        }
-
-        // Print a final message showing all tests are complete
-        System.out.println("\n========================================");
-        System.out.println("ALL TESTS COMPLETED");
-        System.out.println("========================================");
     }
 }
 

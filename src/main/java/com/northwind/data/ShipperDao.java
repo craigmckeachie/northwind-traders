@@ -40,7 +40,7 @@ public class ShipperDao {
 
     // METHOD 1: GET ALL SHIPPERS
     // This method retrieves ALL shippers from the database and returns them as a list
-    // It's like asking "Show me everyone in your database"
+    // It's like asking "Show me everyone in your database table"
     public List<Shipper> getAll() {
 
         // Create an empty ArrayList to store all the shippers we'll find
@@ -50,7 +50,7 @@ public class ShipperDao {
         // This is the SQL query - a command we'll send to the database
         // SQL is like asking the database: "Give me all this information from the Shippers table"
         // Notice: We only have 3 columns (ShipperID, CompanyName, Phone) - much simpler than Customer!
-        String query = """
+        String query = """ 
                 SELECT ShipperID, CompanyName, Phone
                 FROM Shippers;
                 """;
